@@ -31,6 +31,7 @@ public class Student {
 
     @Min(value = 1, message = "Year must be at least 1")
     @Max(value = 6, message = "Year cannot exceed 6")
+    @Column(name = "student_year")
     private int year;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
