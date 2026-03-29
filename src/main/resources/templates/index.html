@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Dashboard – Student Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-5">
+
+    <!-- Flash messages -->
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <h2 class="mb-4 fw-bold">📊 Dashboard</h2>
+
+    <!-- Stats cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow h-100">
+                <div class="card-body text-center py-4">
+                    <h1 class="display-4 fw-bold" th:text="${totalStudents}">0</h1>
+                    <p class="fs-5 mb-0">👩‍🎓 Students</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a th:href="@{/students}" class="text-white text-decoration-none">View All →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow h-100">
+                <div class="card-body text-center py-4">
+                    <h1 class="display-4 fw-bold" th:text="${totalCourses}">0</h1>
+                    <p class="fs-5 mb-0">📚 Courses</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a th:href="@{/courses}" class="text-white text-decoration-none">View All →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow h-100">
+                <div class="card-body text-center py-4">
+                    <h1 class="display-4 fw-bold" th:text="${totalRegistrations}">0</h1>
+                    <p class="fs-5 mb-0">📝 Registrations</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a th:href="@{/registrations/register}" class="text-white text-decoration-none">Register Now →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent students & courses -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-white fw-bold">🕐 Recently Added Students</div>
+                <ul class="list-group list-group-flush">
+                    <li th:if="${#lists.isEmpty(recentStudents)}" class="list-group-item text-muted">No students yet.</li>
+                    <li th:each="s : ${recentStudents}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span th:text="${s.fullName}"></span>
+                        <a th:href="@{/students/{id}/profile(id=${s.id})}" class="btn btn-sm btn-outline-primary">View</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-white fw-bold">🕐 Recently Added Courses</div>
+                <ul class="list-group list-group-flush">
+                    <li th:if="${#lists.isEmpty(recentCourses)}" class="list-group-item text-muted">No courses yet.</li>
+                    <li th:each="c : ${recentCourses}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><span class="badge bg-secondary me-2" th:text="${c.courseCode}"></span><span th:text="${c.courseName}"></span></span>
+                        <span class="text-muted small" th:text="${c.credits} + ' credits'"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
