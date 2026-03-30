@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${formTitle} + ' – Student Registration'">Course Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white fw-bold fs-5" th:text="${formTitle}">Course Form</div>
+                <div class="card-body">
+                    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                    <form th:action="@{/courses/save}" th:object="${course}" method="post" novalidate>
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Course Name</label>
+                            <input type="text" class="form-control" th:field="*{courseName}"
+                                   th:classappend="${#fields.hasErrors('courseName')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{courseName}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Course Code</label>
+                            <input type="text" class="form-control" th:field="*{courseCode}"
+                                   th:classappend="${#fields.hasErrors('courseCode')} ? 'is-invalid'"
+                                   placeholder="e.g. CS101"/>
+                            <div class="invalid-feedback" th:errors="*{courseCode}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Lecturer</label>
+                            <input type="text" class="form-control" th:field="*{lecturer}"
+                                   th:classappend="${#fields.hasErrors('lecturer')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{lecturer}"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Credits (1–6)</label>
+                            <input type="number" class="form-control" th:field="*{credits}" min="1" max="6"
+                                   th:classappend="${#fields.hasErrors('credits')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{credits}"></div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">💾 Save Course</button>
+                            <a th:href="@{/courses}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
